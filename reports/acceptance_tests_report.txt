@@ -1,0 +1,28 @@
+Feature: ParaBank Customer login # features/login/login.feature:1
+  To perform customer account-related operations, the customer should log into the system.
+  Scenario: Unregistered customer attempts to login  # features/login/login.feature:5
+    Given an unregistered customer, "Alice"          # features/steps/login/unregistered_customer.py:5
+    When "Alice" logs in                             # features/steps/login/__init__.py:9
+    Then an error occurs                             # features/steps/login/__init__.py:20
+
+  Scenario: Customers' data is returned on a successful login  # features/login/login.feature:11
+    Given a registered customer, "Robert"                      # features/steps/login/registered_customer.py:5
+    When "Robert" logs in                                      # features/steps/login/__init__.py:9
+    Then "Robert" customer data matches the response           # features/steps/login/registered_customer.py:11
+
+  Scenario: Customer's sequential login attempts succeed  # features/login/login.feature:17
+    Given a registered customer, "Robert"                 # features/steps/login/registered_customer.py:5
+    When "Robert" logs in                                 # features/steps/login/__init__.py:9
+    And "Robert" logs in                                  # features/steps/login/__init__.py:9
+    Then no error is returned                             # features/steps/login/__init__.py:26
+    And "Robert" customer data matches the response       # features/steps/login/registered_customer.py:11
+
+  Scenario: A registered customer cannot log-in with an incorrect password  # features/login/login.feature:28
+    Given a registered customer, "Robert"                                   # features/steps/login/registered_customer.py:5
+    When "Robert" logs in with an incorrect "password"                      # features/steps/login/invalid_password.py:5
+    Then an error occurs                                                    # features/steps/login/__init__.py:20
+
+1 feature passed, 0 failed, 1 skipped
+4 scenarios passed, 0 failed, 3 skipped
+14 steps passed, 0 failed, 10 skipped, 0 undefined
+Took 0m2.414s
