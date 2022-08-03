@@ -10,8 +10,10 @@
     "types": [ "mocha", "node" ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./step_definitions",
   },
   "include": [
     "step_definitions/**/*"

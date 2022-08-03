@@ -1,22 +1,31 @@
-import {Given, When, Then} from '@cucumber/cucumber';
-import {Builder, By, Capabilities, Key} from 'selenium-webdriver';
+import {Given, When, AfterAll} from '@cucumber/cucumber';
 
-// driver setup
-const capabilities = Capabilities.chrome();
-capabilities.set('chromeOptions', {'w3c': false});
-const driver = new Builder().withCapabilities(capabilities).build();
+import {RegisterPage, WelcomePage, OpenAccountPage} from './testkit/pages';
+import {Browser, pageHasLoaded} from './testkit/lib';
+import {Customer} from './testkit/models';
 
-Given(/^today is Sunday$/, {timeout: 2 * 5000}, async function () {
-    await driver.get('https://parabank.parasoft.com/parabank/index.htm');
-    await driver.findElement(By.xpath(`//form/div[@class="login"]/input[@name="username"]`)).sendKeys('john');
-    await driver.findElement(By.xpath(`//form/div[@class="login"]/input[@name="password"]`)).sendKeys('demo');
-    await driver.findElement(By.xpath(`//form`)).submit();
+const browser = Browser.getInstance();
+
+
+// TODO: Wrap the steps context into an adapter.
+Given('a new customer, {string}', function (customerName: string) {
+    this.customers = {};
+    this.customers[customerName] = Customer.getFake()
 });
 
-When(/^I ask whether it's Friday yet$/, async function () {
+Given('{string} registers', async function (customerName: string) {
+    const registerPage =  await browser.navigate("Register") as RegisterPage;
+    await registerPage.fillInCustomerData(this.customers[customerName]);
+    await registerPage.submitRegistrationForm();
 
+    await browser.wait(pageHasLoaded(WelcomePage));
 });
 
-Then(/^I should be told "([^"]*)"$/, function (we) {
+When('{string} registers a new {string} account', async function (customerName: string, accountType: string) {
+    const newAccountPage =  await browser.navigate("OpenAccount") as OpenAccountPage;
+    // The rest of the implementation will follow...
+});
 
+AfterAll(async function () {
+    await browser.exit();
 });
