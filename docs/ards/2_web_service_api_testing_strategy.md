@@ -40,5 +40,5 @@ The complete automation for this test suite is impossible in the current API imp
 
 ## Further extentions
 
-* versioning
-* tags clustering
+* versioning — align the versioning of the system under test and the client used for communication to the API;
+* tags clustering — mark scenarios with relevant tags for further clustering into functionality groups.
