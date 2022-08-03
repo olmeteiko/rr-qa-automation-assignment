@@ -2,4 +2,4 @@
 
 The list of [architecture decision records](./docs/ards/readme.md).
 
-The list of [identified issues](https://github.com/olmeteiko/rr-qa-automation-assignment/issues).
+The list of [critical issues](https://github.com/olmeteiko/rr-qa-automation-assignment/issues).
